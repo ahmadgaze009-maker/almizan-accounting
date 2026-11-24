@@ -1,4 +1,4 @@
-herename: Build AlMizan APK
+ename: Build AlMizan APK
 on:
   workflow_dispatch:
   push:
