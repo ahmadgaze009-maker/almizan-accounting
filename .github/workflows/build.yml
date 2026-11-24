@@ -1,4 +1,4 @@
-ename: Build AlMizan APK
+name: Build AlMizan APK
 on:
   workflow_dispatch:
   push:
@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -22,18 +20,13 @@ jobs:
       - name: Unzip project
         run: unzip -q almizan-accounting.zip
 
-      - name: Build Android project with Capacitor
+      - name: Setup Capacitor Android
         working-directory: almizan-accounting
         run: |
           npm install
           npm run build
           npx cap add android
           npx cap sync android
-
-      - name: Add Storage and Bluetooth Permissions
-        working-directory: almizan-accounting
-        run: |
-          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android.permission.BLUETOOTH" />\n    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
 
       - name: Build Debug APK
         working-directory: almizan-accounting/android
